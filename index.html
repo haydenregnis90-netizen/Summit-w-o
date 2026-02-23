@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#155a74">
+<title>Summit Work Orders</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjM4IiBmaWxsPSIjMTU1YTc0Ii8+PHRleHQgeD0iOTYiIHk9IjExNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNjQiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IndoaXRlIj5XTzwvdGV4dD48L3N2Zz4=">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--c:#155a74;--c2:#1a7a9a;--cl:#e8f4f8;--bd:#c8dce4}
+body{font-family:-apple-system,BlinkMacSystemFont,Calibri,'Segoe UI',sans-serif;background:linear-gradient(160deg,#edf5f8,var(--cl),#f0f7fa);min-height:100vh;min-height:100dvh;color:#1e293b;overflow-x:hidden}
+input,select,textarea{width:100%;padding:11px 10px;border:1.5px solid var(--bd);border-radius:8px;font-size:16px;font-family:inherit;background:#f8fbfc;color:#1e293b;outline:none;-webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--c);box-shadow:0 0 0 3px rgba(21,90,116,.15)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%23155a74' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
+textarea{min-height:70px;resize:vertical}
+.hdr{background:linear-gradient(135deg,var(--c),var(--c2));padding:16px;display:flex;align-items:center;justify-content:center;gap:12px;position:sticky;top:0;z-index:50;-webkit-user-select:none;user-select:none}
+.hdr h1{font-size:19px;color:#fff;font-weight:800}
+.hdr small{font-size:11px;color:rgba(255,255,255,.7);display:block;margin-top:1px}
+.card{background:#fff;border-radius:14px;padding:16px;margin:10px 12px;box-shadow:0 1px 6px rgba(0,0,0,.06);border:1px solid #dde8ee;border-left:4px solid var(--c)}
+.sec{font-size:13px;font-weight:700;color:var(--c);margin-bottom:10px;padding-bottom:4px;border-bottom:2px solid var(--cl);text-transform:uppercase;letter-spacing:.3px}
+.lbl{display:block;font-size:10px;font-weight:700;color:var(--c);margin-bottom:3px;letter-spacing:.4px;text-transform:uppercase}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+.mb{margin-bottom:8px}
+.auto{position:relative}
+.auto-dd{position:absolute;top:100%;left:0;right:0;z-index:200;background:#fff;border:1.5px solid var(--bd);border-top:none;border-radius:0 0 10px 10px;box-shadow:0 10px 30px rgba(0,0,0,.15);max-height:200px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.auto-dd div{padding:12px;font-size:15px;border-bottom:1px solid #f0f4f6;cursor:pointer}
+.auto-dd div:active{background:var(--cl)}
+.scope-r{display:flex;gap:6px;margin-bottom:8px;align-items:center}
+.scope-r input{flex:1}
+.scope-dot{color:var(--c);font-weight:700;font-size:16px;width:16px;text-align:center;flex-shrink:0}
+.btn-x{border:none;background:#fee2e2;color:#dc2626;border-radius:6px;width:36px;height:36px;cursor:pointer;font-weight:700;font-size:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.btn-add{border:1.5px dashed var(--c);background:transparent;color:var(--c);border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:13px;width:100%}
+.tots{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px;padding-top:12px;border-top:1.5px solid var(--cl);text-align:center}
+.tots .tl{font-size:9px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.tots .tv{font-size:16px;font-weight:700;margin-top:2px}
+.tots .big .tv{font-size:22px;font-weight:800;color:var(--c)}
+.acts{padding:12px;display:flex;flex-direction:column;gap:8px}
+.acts .row{display:flex;gap:8px}
+.btn{padding:14px 12px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;border:none;text-align:center;flex:1;min-width:0;-webkit-user-select:none;user-select:none;transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn-p{background:linear-gradient(135deg,var(--c),var(--c2));color:#fff;box-shadow:0 4px 14px rgba(21,90,116,.25)}
+.btn-o{border:2px solid var(--c);background:#fff;color:var(--c)}
+.btn-g{background:#16a34a;color:#fff}
+.btn-n{background:#10b981;color:#fff}
+.btn-s{border:2px solid #e2e8f0;background:#fff;color:#64748b}
+.status{text-align:center;padding:8px;font-size:12px;font-weight:600;color:var(--c);background:var(--cl);border-radius:8px;margin:0 12px 8px}
+/* Preview */
+.pbar{display:flex;gap:6px;padding:10px 12px;background:var(--c);position:sticky;top:0;z-index:50;flex-wrap:wrap;justify-content:center}
+.pbar .btn{padding:10px 16px;font-size:13px;flex:0 1 auto}
+.pbar .bb{background:#fff;color:var(--c)}
+.pbar .bd{border:2px solid #fff;background:transparent;color:#fff}
+.pbar .be{background:#16a34a;color:#fff}
+.pg{background:#fff;max-width:800px;margin:14px auto;border-radius:4px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.1)}
+.pg .bar{position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(to bottom,var(--c),var(--c2),#9bc4d4)}
+.pg-in{font-size:11px;color:#1a1a1a;padding:24px 28px 24px 36px}
+@media(min-width:600px){.pg-in{padding:30px 36px 30px 44px}}
+.pg .hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--c)}
+.pg .lt{font-size:22px;font-weight:900;color:var(--c);letter-spacing:-1px}
+.pg .ls{font-size:7px;color:var(--c);letter-spacing:4px;margin-top:2px}
+.pg .ci{text-align:right;font-size:8px;color:#555;line-height:1.5}
+.pg .wt{text-align:center;font-size:18px;font-weight:800;color:var(--c);margin-bottom:3px}
+.pg .ws{text-align:center;font-size:11px;margin-bottom:14px;color:#333;font-weight:600}
+.pg table.inf{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:9px}
+.pg table.inf td{padding:4px 6px;border:1px solid var(--bd)}
+.pg table.inf td.l{font-weight:700;background:var(--cl);color:var(--c);font-size:8px;text-transform:uppercase;width:15%}
+.pg .dt{font-weight:700;font-size:11px;color:var(--c);margin-bottom:5px}
+.pg .co{font-weight:700;text-decoration:underline;margin-bottom:8px;font-size:10px}
+.pg .bu{padding-left:12px;line-height:1.8;font-size:9px}
+.pg .tt{font-weight:700;font-size:9px;text-decoration:underline;margin-bottom:6px;color:var(--c)}
+.pg .tm{font-size:6.5px;line-height:1.6;color:#555}
+.pg table.tot{width:100%;border-collapse:collapse;font-size:10px}
+.pg table.tot td{padding:4px 8px}
+.pg table.tot tr.tl{background:var(--c);color:#fff;font-weight:800}
+.pg table.tot tr.tl td{font-size:11px}
+/* History */
+.hi{display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.hi:active{background:var(--cl);border-radius:10px}
+/* Print */
+@media print{.pbar,.np{display:none!important}@page{margin:.5in}body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}.pg{box-shadow:none;margin:0;border-radius:0}}
+.hidden{display:none}
+.loading{display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;text-align:center;color:var(--c);flex-direction:column;gap:14px;font-size:15px;font-weight:600}
+</style>
+</head>
+<body>
+<div id="app" class="loading">
+<svg viewBox="0 0 250 150" style="height:60px"><path d="M85,15 C95,15 105,5 120,5 C135,5 140,15 155,15 C165,15 170,10 175,8" fill="none" stroke="#155a74" stroke-width="7" stroke-linecap="round"/><path d="M75,32 C90,32 100,20 120,20 C140,20 145,32 165,32 C175,32 182,26 188,24" fill="none" stroke="#155a74" stroke-width="8" stroke-linecap="round"/><path d="M90,48 C100,48 108,38 120,38 C132,38 138,48 150,48 C158,48 163,44 168,42" fill="none" stroke="#155a74" stroke-width="6" stroke-linecap="round"/><text x="125" y="90" text-anchor="middle" font-family="sans-serif" font-size="38" font-weight="900" fill="#155a74" letter-spacing="-1">summit</text><text x="125" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#155a74" letter-spacing="6">AIR AND REFRIGERATION</text></svg>
+Loading...
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// SUMMIT AIR - WORK ORDER APP (Standalone)
+// ═══════════════════════════════════════════
+
+const CO={name:"Summit Air and Refrigeration",abn:"42 491 397 260",phone:"0418 979 116",email:"info@summitco.net.au",lic:"AU56998"};
+const STATES=["NSW","VIC","QLD","WA","SA","TAS","NT","ACT"];
+const CALLOUTS=["Standard callout to site","Callout to site for after hours attendance","Preventative maintenance visit","Emergency callout","Warranty callout","Quote / Assessment only"];
+const TERMS=["Any variation in the Work Order amount by the recipient will not be paid without prior written consent or approval from Summit Air and Refrigeration.","For this Work Order to be considered completed, the Contractor must provide evidence of work/s carried out in the form of photos, a job report and an invoice which shows the relevant Work Order number. Job report and Quotes to be submitted within 24 hrs of job attendance.","All contractor invoice payment terms are 30 days EOM.","By attending site, the contractor is accepting the terms and conditions of this work order.","Summit Air and Refrigeration endorses safe working practices only. In the event a contractor, or its employees, is found not to be working to the relevant Australian OHS legislation, this will result in immediate cancellation of this Work Order and payment terms.","Any workplace accident, injury or near miss must be reported to management immediately, as set out in Australian OHS state and territory guidelines.","Technicians / Companies attending the work/s on this work order are doing so as a representative for Summit Air and Refrigeration.","Any work or workplace disputes are to be brought to the attention of management immediately."];
+
+// Helpers
+function fD(d){if(!d)return"";const x=new Date(d+"T00:00:00");return x.toLocaleDateString("en-AU",{day:"2-digit",month:"2-digit",year:"numeric"})}
+function fC(v){return"$"+(parseFloat(v)||0).toFixed(2)}
+function calc(l,m){const a=parseFloat(l)||0,b=parseFloat(m)||0,s=a+b;return{labour:a,materials:b,sub:s,gst:s*.1,total:s*1.1}}
+function addr(wo){return[wo.siteAddress,wo.siteCity,wo.siteState,wo.sitePostcode].filter(Boolean).join(", ")}
+function today(){return new Date().toISOString().split("T")[0]}
+function blank(){return{woNumber:"",contractor:"",contractorState:"NSW",contractorEmail:"",siteName:"",siteContact:"",siteAddress:"",siteCity:"",siteState:"NSW",sitePostcode:"",sitePhone:"",date:today(),pm:"",calloutType:CALLOUTS[0],description:"",priority:"Normal",labour:"0.00",materials:"0.00",notes:"",scopeItems:["Provide detailed report of findings","Provide additional recommendations as required","Provide before/after photos"]}}
+
+// Storage (localStorage for persistence on phone)
+function sGet(k,def){try{const v=localStorage.getItem("summit_"+k);return v?JSON.parse(v):def}catch(e){return def}}
+function sSet(k,v){try{localStorage.setItem("summit_"+k,JSON.stringify(v))}catch(e){}}
+
+// State
+let wo=blank(), hist=[], view="form", dlStatus=null;
+
+function init(){
+  hist=sGet("history",[]);
+  const counter=sGet("counter",0);
+  wo.woNumber=String(counter+1);
+  render();
+}
+
+function saveWO(){
+  const n=parseInt(wo.woNumber,10)||1;
+  sSet("counter",n);
+  const entry=Object.assign({},wo,{woNumber:String(n),createdAt:new Date().toISOString()});
+  hist.push(entry);
+  if(hist.length>100)hist=hist.slice(-100);
+  sSet("history",hist);
+}
+
+function newWO(){
+  const counter=sGet("counter",0);
+  wo=blank();
+  wo.woNumber=String(counter+1);
+  view="form";
+  render();
+}
+
+function getSugg(field){return[...new Set(hist.map(h=>h[field]).filter(Boolean))]}
+
+function selContractor(name){
+  const m=[...hist].reverse().find(h=>h.contractor===name);
+  if(m){wo.contractor=name;wo.contractorState=m.contractorState||wo.contractorState;wo.contractorEmail=m.contractorEmail||wo.contractorEmail}
+  else wo.contractor=name;
+  render();
+}
+function selSite(name){
+  const m=[...hist].reverse().find(h=>h.siteName===name);
+  if(m){wo.siteName=name;wo.siteContact=m.siteContact||"";wo.siteAddress=m.siteAddress||"";wo.siteCity=m.siteCity||"";wo.siteState=m.siteState||"NSW";wo.sitePostcode=m.sitePostcode||"";wo.sitePhone=m.sitePhone||""}
+  else wo.siteName=name;
+  render();
+}
+
+// Download HTML (contains all WO info, auto-prints when opened)
+function genHTML(){
+  const t=calc(wo.labour,wo.materials),a=addr(wo);
+  const scope=wo.scopeItems.filter(Boolean).map(s=>'<div class="bu">\u2022 '+s+'</div>').join("");
+  return'<!DOCTYPE html><html><head><meta charset="utf-8"><title>Work Order '+wo.woNumber+'</title><style>@page{margin:.6in}body{font-family:Calibri,sans-serif;font-size:11px;color:#1a1a1a;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}.p{position:relative;padding:28px 36px 28px 42px}.br{position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(to bottom,#155a74,#1a7a9a,#9bc4d4)}.hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #155a74}.lt{font-size:24px;font-weight:900;color:#155a74;letter-spacing:-1px}.ls{font-size:8px;color:#155a74;letter-spacing:4px;margin-top:2px}.ci{text-align:right;font-size:9px;color:#555;line-height:1.6}.wt{text-align:center;font-size:20px;font-weight:800;color:#155a74;margin-bottom:4px}.ws{text-align:center;font-size:12px;margin-bottom:16px;color:#333;font-weight:600}table.inf{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:10px}table.inf td{padding:5px 8px;border:1px solid #c8dce4}table.inf td.l{font-weight:700;background:#e8f4f8;color:#155a74;font-size:9px;text-transform:uppercase;width:14%}.dt{font-weight:700;font-size:12px;color:#155a74;margin-bottom:6px}.co{font-weight:700;text-decoration:underline;margin-bottom:10px;font-size:11px}.bu{padding-left:14px;line-height:1.9;font-size:10px}.tt{font-weight:700;font-size:10px;text-decoration:underline;margin-bottom:8px;color:#155a74}.tm{font-size:7.5px;line-height:1.7;color:#555}table.tot{width:100%;border-collapse:collapse;font-size:11px}table.tot td{padding:5px 10px}table.tot tr.tl{background:#155a74;color:#fff;font-weight:800}table.tot tr.tl td{font-size:12px}</style></head><body><div class="p"><div class="br"></div><div class="hd"><div><div class="lt">summit</div><div class="ls">AIR AND REFRIGERATION</div></div><div class="ci">'+(CO.abn?'<div>ABN: '+CO.abn+'</div>':'')+(CO.phone?'<div>Ph: '+CO.phone+'</div>':'')+(CO.email?'<div>'+CO.email+'</div>':'')+(CO.lic?'<div>ARCtick Licence: '+CO.lic+'</div>':'')+'</div></div><div class="wt">WORK ORDER NO. '+(wo.woNumber||'\u2014')+'</div><div class="ws">'+(wo.contractor||'\u2014')+(wo.contractorState?' \u2014 '+wo.contractorState:'')+'</div><table class="inf"><tbody><tr><td class="l">Site Name</td><td>'+(wo.siteName||'')+'</td><td class="l">Site Contact</td><td>'+(wo.siteContact||'')+'</td></tr><tr><td class="l">Site Address</td><td>'+a+'</td><td class="l">Site Phone</td><td>'+(wo.sitePhone||'')+'</td></tr><tr><td class="l">Date</td><td>'+fD(wo.date)+'</td><td colspan="2"></td></tr><tr><td class="l">P.M.</td><td>'+(wo.pm||'')+'</td><td colspan="2"></td></tr></tbody></table><div style="margin-bottom:18px"><div class="dt">Description</div><div class="co">'+wo.calloutType+'</div><div class="bu">\u2022 Date: '+fD(wo.date)+'</div><div class="bu">\u2022 Site Contact: '+(wo.siteContact||'\u2014')+'</div><div class="bu">\u2022 <strong>Description:</strong> '+(wo.description||'\u2014')+'</div><div class="bu">\u2022 Priority: '+wo.priority+'</div>'+scope+(wo.notes?'<div class="bu" style="margin-top:4px">\u2022 <strong>Notes:</strong> '+wo.notes+'</div>':'')+'</div><div style="margin-bottom:20px;border-top:1px solid #c8dce4;padding-top:14px"><div class="tt">Payment Terms &amp; Conditions</div><div class="tm">'+TERMS.map((t,i)=>(i+1)+'. '+t).join('<br/>')+'</div></div><table class="tot"><tbody><tr><td>Labour</td><td style="text-align:right">'+fC(t.labour)+'</td></tr><tr><td>Materials</td><td style="text-align:right">'+fC(t.materials)+'</td></tr><tr><td style="border-bottom:1px solid #e0e8ed">Sub-Total ex GST</td><td style="text-align:right;border-bottom:1px solid #e0e8ed">'+fC(t.sub)+'</td></tr><tr><td style="border-bottom:1px solid #e0e8ed">GST</td><td style="text-align:right;border-bottom:1px solid #e0e8ed">'+fC(t.gst)+'</td></tr><tr class="tl"><td>Total (inc. GST)</td><td style="text-align:right">'+fC(t.total)+'</td></tr></tbody></table></div><script>window.onload=function(){setTimeout(function(){window.print()},400)}<\/script></body></html>';
+}
+
+function doDownload(){
+  try{
+    const html=genHTML();
+    const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");a.href=url;a.download="Work_Order_"+wo.woNumber+".html";
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    dlStatus="Downloaded! Open \u2192 Save as PDF";render();
+    setTimeout(()=>{dlStatus=null;render()},4000);
+  }catch(e){dlStatus="Error";render();setTimeout(()=>{dlStatus=null;render()},2500)}
+}
+
+function doEmail(){
+  const to=wo.contractorEmail||"",t=calc(wo.labour,wo.materials),a=addr(wo);
+  const scope=wo.scopeItems.filter(Boolean).map(s=>"  \u2022 "+s).join("\n");
+  const body="Hi,\n\nPlease find below Work Order No. "+wo.woNumber+" from "+CO.name+".\n\nWORK ORDER NO. "+wo.woNumber+"\n\nContractor: "+(wo.contractor||"\u2014")+" ("+wo.contractorState+")\nDate: "+fD(wo.date)+"\nPM: "+(wo.pm||"\u2014")+"\n\nSite: "+(wo.siteName||"\u2014")+"\nAddress: "+(a||"\u2014")+"\nContact: "+(wo.siteContact||"\u2014")+" | "+(wo.sitePhone||"")+"\n\nCallout: "+wo.calloutType+"\nPriority: "+wo.priority+"\nDescription: "+(wo.description||"\u2014")+"\n\nScope:\n"+scope+(wo.notes?"\n\nNotes: "+wo.notes:"")+"\n\nLabour: "+fC(t.labour)+"\nMaterials: "+fC(t.materials)+"\nTotal (inc GST): "+fC(t.total)+"\n\nRegards,\n"+(wo.pm||CO.name)+"\n"+CO.phone+" | "+CO.email;
+  const subj=encodeURIComponent("Work Order #"+wo.woNumber+" - "+(wo.siteName||"Site")+" - "+CO.name);
+  const b=encodeURIComponent(body);
+  // Try Outlook then mailto
+  try{const l=document.createElement("a");l.href="ms-outlook://compose?to="+encodeURIComponent(to)+"&subject="+subj+"&body="+b;l.click()}catch(e){}
+  setTimeout(()=>{const l=document.createElement("a");l.href="mailto:"+to+"?subject="+subj+"&body="+b;l.click()},1500);
+}
+
+// ─── AUTOCOMPLETE STATE ───
+let openAuto=null; // which field's autocomplete is open
+
+function autoField(field,value,suggs,onSelectFn){
+  const filtered=suggs.filter(s=>s.toLowerCase().includes((value||"").toLowerCase()));
+  const isOpen=openAuto===field&&filtered.length>0;
+  return'<div class="auto"><input value="'+esc(value)+'" placeholder="..." data-field="'+field+'" data-auto="1">'+(isOpen?'<div class="auto-dd">'+filtered.map((it,i)=>'<div data-autosel="'+field+'" data-val="'+esc(it)+'">'+esc(it)+'</div>').join("")+'</div>':'')+'</div>';
+}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+function selectOpt(field,val){
+  if(field==="contractor")selContractor(val);
+  else if(field==="siteName")selSite(val);
+  else wo[field]=val;
+  openAuto=null;
+  render();
+}
+
+// ─── RENDER ───
+function render(){
+  const app=document.getElementById("app");
+  app.className="";
+
+  if(view==="form")renderForm(app);
+  else if(view==="preview")renderPreview(app);
+  else if(view==="history")renderHistory(app);
+}
+
+function renderForm(el){
+  const t=calc(wo.labour,wo.materials);
+  const scopeHTML=wo.scopeItems.map((item,i)=>'<div class="scope-r"><span class="scope-dot">\u2022</span><input value="'+esc(item)+'" data-scope="'+i+'" placeholder="Scope item...">'+(wo.scopeItems.length>1?'<button class="btn-x" data-rmscope="'+i+'">\u00d7</button>':'')+'</div>').join("");
+
+  el.innerHTML=
+  '<div class="hdr"><svg viewBox="0 0 250 150" style="height:36px"><path d="M85,15 C95,15 105,5 120,5 C135,5 140,15 155,15 C165,15 170,10 175,8" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M75,32 C90,32 100,20 120,20 C140,20 145,32 165,32 C175,32 182,26 188,24" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/><path d="M90,48 C100,48 108,38 120,38 C132,38 138,48 150,48 C158,48 163,44 168,42" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/><text x="125" y="90" text-anchor="middle" font-family="sans-serif" font-size="38" font-weight="900" fill="#fff" letter-spacing="-1">summit</text><text x="125" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" fill="rgba(255,255,255,.7)" letter-spacing="6">AIR AND REFRIGERATION</text></svg><div><h1>Work Orders</h1><small>'+CO.name+'</small></div></div>'+
+  '<div style="padding:0 0 90px">'+
+  // WO Details
+  '<div class="card"><div class="sec">Work Order Details</div>'+
+  '<div class="r3"><div><span class="lbl">WO #</span><input value="'+esc(wo.woNumber)+'" readonly style="font-weight:700;font-size:18px;color:var(--c);background:#eef5f7"></div><div><span class="lbl">Date</span><input type="date" value="'+wo.date+'" data-field="date"></div><div><span class="lbl">P.M.</span>'+autoField("pm",wo.pm,getSugg("pm"))+'</div></div>'+
+  '<div class="r2"><div><span class="lbl">Contractor</span>'+autoField("contractor",wo.contractor,getSugg("contractor"),"selContractor")+'</div><div><span class="lbl">State</span><select data-field="contractorState">'+STATES.map(s=>'<option'+(s===wo.contractorState?' selected':'')+'>'+s+'</option>').join("")+'</select></div></div>'+
+  '<div class="mb"><span class="lbl">Contractor Email</span>'+autoField("contractorEmail",wo.contractorEmail,getSugg("contractorEmail"))+'</div></div>'+
+  // Site
+  '<div class="card"><div class="sec">Site Information</div>'+
+  '<div class="r2"><div><span class="lbl">Site Name</span>'+autoField("siteName",wo.siteName,getSugg("siteName"),"selSite")+'</div><div><span class="lbl">Contact</span>'+autoField("siteContact",wo.siteContact,getSugg("siteContact"))+'</div></div>'+
+  '<div class="mb"><span class="lbl">Address</span>'+autoField("siteAddress",wo.siteAddress,getSugg("siteAddress"))+'</div>'+
+  '<div class="r3"><div><span class="lbl">City</span>'+autoField("siteCity",wo.siteCity,getSugg("siteCity"))+'</div><div><span class="lbl">State</span><select data-field="siteState">'+STATES.map(s=>'<option'+(s===wo.siteState?' selected':'')+'>'+s+'</option>').join("")+'</select></div><div><span class="lbl">Post</span>'+autoField("sitePostcode",wo.sitePostcode,getSugg("sitePostcode"))+'</div></div>'+
+  '<div class="mb"><span class="lbl">Phone</span>'+autoField("sitePhone",wo.sitePhone,getSugg("sitePhone"))+'</div></div>'+
+  // Job
+  '<div class="card"><div class="sec">Job Description</div>'+
+  '<div class="r2"><div><span class="lbl">Callout</span><select data-field="calloutType">'+CALLOUTS.map(c=>'<option'+(c===wo.calloutType?' selected':'')+'>'+esc(c)+'</option>').join("")+'</select></div><div><span class="lbl">Priority</span><select data-field="priority">'+["Low","Normal","High","Urgent"].map(p=>'<option'+(p===wo.priority?' selected':'')+'>'+p+'</option>').join("")+'</select></div></div>'+
+  '<div class="mb"><span class="lbl">Description *</span>'+autoField("description",wo.description,getSugg("description"))+'</div>'+
+  '<div class="mb"><span class="lbl">Scope / Requirements</span>'+scopeHTML+'<button class="btn-add" id="addScope">+ Add scope</button></div>'+
+  '<div><span class="lbl">Notes</span><textarea data-field="notes" placeholder="Additional notes...">'+esc(wo.notes)+'</textarea></div></div>'+
+  // Pricing
+  '<div class="card"><div class="sec">Pricing</div>'+
+  '<div class="r2"><div><span class="lbl">Labour ($)</span><input type="number" step="0.01" min="0" value="'+wo.labour+'" data-field="labour"></div><div><span class="lbl">Materials ($)</span><input type="number" step="0.01" min="0" value="'+wo.materials+'" data-field="materials"></div></div>'+
+  '<div class="tots"><div><div class="tl">Sub-Total</div><div class="tv">'+fC(t.sub)+'</div></div><div><div class="tl">GST</div><div class="tv">'+fC(t.gst)+'</div></div><div class="big"><div class="tl">Total</div><div class="tv">'+fC(t.total)+'</div></div></div></div>'+
+  // Status
+  (dlStatus?'<div class="status">'+dlStatus+'</div>':'')+
+  // Actions
+  '<div class="acts"><div class="row"><button class="btn btn-p" id="doPreview">Preview</button><button class="btn btn-o" id="doDL">'+(dlStatus||'Download')+'</button><button class="btn btn-g" id="doEmail">Email</button></div><div class="row"><button class="btn btn-n" id="doNew">+ New WO</button><button class="btn btn-s" id="doHist">History ('+hist.length+')</button></div></div>'+
+  '</div>';
+
+  bindForm();
+}
+
+function bindForm(){
+  // Regular fields
+  document.querySelectorAll("[data-field]").forEach(el=>{
+    const f=el.dataset.field;
+    if(el.tagName==="SELECT"){el.onchange=()=>{wo[f]=el.value;render()}}
+    else if(el.tagName==="TEXTAREA"){el.oninput=()=>{wo[f]=el.value}}
+    else if(el.type==="date"||el.type==="number"){el.oninput=()=>{wo[f]=el.value;if(f==="labour"||f==="materials")render()}}
+  });
+  // Auto fields
+  document.querySelectorAll("[data-auto]").forEach(el=>{
+    const f=el.dataset.field;
+    el.oninput=()=>{wo[f]=el.value;openAuto=f;render();
+      // Refocus and set cursor
+      setTimeout(()=>{const inp=document.querySelector('[data-field="'+f+'"][data-auto]');if(inp){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length)}},0);
+    };
+    el.onfocus=()=>{openAuto=f;render();setTimeout(()=>{const inp=document.querySelector('[data-field="'+f+'"][data-auto]');if(inp)inp.focus()},0)};
+  });
+  // Auto select
+  document.querySelectorAll("[data-autosel]").forEach(el=>{
+    el.onmousedown=ev=>{ev.preventDefault();selectOpt(el.dataset.autosel,el.dataset.val)};
+    el.ontouchend=ev=>{ev.preventDefault();selectOpt(el.dataset.autosel,el.dataset.val)};
+  });
+  // Scope
+  document.querySelectorAll("[data-scope]").forEach(el=>{el.oninput=()=>{wo.scopeItems[parseInt(el.dataset.scope)]=el.value}});
+  document.querySelectorAll("[data-rmscope]").forEach(el=>{el.onclick=()=>{wo.scopeItems.splice(parseInt(el.dataset.rmscope),1);render()}});
+  document.getElementById("addScope")&&(document.getElementById("addScope").onclick=()=>{wo.scopeItems.push("");render()});
+  // Buttons
+  document.getElementById("doPreview")&&(document.getElementById("doPreview").onclick=()=>{saveWO();view="preview";render()});
+  document.getElementById("doDL")&&(document.getElementById("doDL").onclick=()=>{saveWO();doDownload()});
+  document.getElementById("doEmail")&&(document.getElementById("doEmail").onclick=()=>{saveWO();doEmail()});
+  document.getElementById("doNew")&&(document.getElementById("doNew").onclick=newWO);
+  document.getElementById("doHist")&&(document.getElementById("doHist").onclick=()=>{view="history";render()});
+  // Close auto on outside tap
+  document.addEventListener("mousedown",ev=>{if(!ev.target.closest(".auto")){openAuto=null;render()}},{once:true});
+}
+
+function renderPreview(el){
+  const t=calc(wo.labour,wo.materials),a=addr(wo);
+  el.innerHTML=
+  '<div class="pbar np"><button class="btn bb" id="pvBack">\u2190 Back</button><button class="btn bd" id="pvDL">'+(dlStatus||'Download')+'</button><button class="btn be" id="pvEmail">Email</button></div>'+
+  '<div class="pg"><div class="bar"></div><div class="pg-in">'+
+  '<div class="hd"><div><div class="lt">summit</div><div class="ls">AIR AND REFRIGERATION</div></div><div class="ci">'+(CO.abn?'<div>ABN: '+CO.abn+'</div>':'')+(CO.phone?'<div>Ph: '+CO.phone+'</div>':'')+(CO.email?'<div>'+CO.email+'</div>':'')+(CO.lic?'<div>ARCtick Licence: '+CO.lic+'</div>':'')+'</div></div>'+
+  '<div class="wt">WORK ORDER NO. '+(wo.woNumber||'\u2014')+'</div>'+
+  '<div class="ws">'+(wo.contractor||'\u2014')+(wo.contractorState?' \u2014 '+wo.contractorState:'')+'</div>'+
+  '<table class="inf"><tbody>'+
+  '<tr><td class="l">Site Name</td><td>'+(wo.siteName||'')+'</td><td class="l">Site Contact</td><td>'+(wo.siteContact||'')+'</td></tr>'+
+  '<tr><td class="l">Site Address</td><td>'+a+'</td><td class="l">Site Phone</td><td>'+(wo.sitePhone||'')+'</td></tr>'+
+  '<tr><td class="l">Date</td><td>'+fD(wo.date)+'</td><td colspan="2"></td></tr>'+
+  '<tr><td class="l">P.M.</td><td>'+(wo.pm||'')+'</td><td colspan="2"></td></tr>'+
+  '</tbody></table>'+
+  '<div style="margin-bottom:16px"><div class="dt">Description</div><div class="co">'+wo.calloutType+'</div>'+
+  '<div class="bu">\u2022 Date: '+fD(wo.date)+'</div>'+
+  '<div class="bu">\u2022 Site Contact: '+(wo.siteContact||'\u2014')+'</div>'+
+  '<div class="bu">\u2022 <strong>Description:</strong> '+(wo.description||'\u2014')+'</div>'+
+  '<div class="bu">\u2022 Priority: '+wo.priority+'</div>'+
+  wo.scopeItems.filter(Boolean).map(s=>'<div class="bu">\u2022 '+esc(s)+'</div>').join("")+
+  (wo.notes?'<div class="bu" style="margin-top:3px">\u2022 <strong>Notes:</strong> '+esc(wo.notes)+'</div>':'')+'</div>'+
+  '<div style="margin-bottom:18px;border-top:1px solid #c8dce4;padding-top:12px"><div class="tt">Payment Terms &amp; Conditions</div><div class="tm">'+TERMS.map((t,i)=>'<div>'+(i+1)+'. '+t+'</div>').join("")+'</div></div>'+
+  '<table class="tot"><tbody>'+
+  '<tr><td>Labour</td><td style="text-align:right">'+fC(t.labour)+'</td></tr>'+
+  '<tr><td>Materials</td><td style="text-align:right">'+fC(t.materials)+'</td></tr>'+
+  '<tr><td style="border-bottom:1px solid #e0e8ed">Sub-Total ex GST</td><td style="text-align:right;border-bottom:1px solid #e0e8ed">'+fC(t.sub)+'</td></tr>'+
+  '<tr><td style="border-bottom:1px solid #e0e8ed">GST</td><td style="text-align:right;border-bottom:1px solid #e0e8ed">'+fC(t.gst)+'</td></tr>'+
+  '<tr class="tl"><td>Total (inc. GST)</td><td style="text-align:right">'+fC(t.total)+'</td></tr>'+
+  '</tbody></table></div></div>';
+
+  document.getElementById("pvBack").onclick=()=>{view="form";render()};
+  document.getElementById("pvDL").onclick=doDownload;
+  document.getElementById("pvEmail").onclick=doEmail;
+}
+
+function renderHistory(el){
+  el.innerHTML=
+  '<div class="hdr"><svg viewBox="0 0 250 150" style="height:32px"><path d="M85,15 C95,15 105,5 120,5 C135,5 140,15 155,15 C165,15 170,10 175,8" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M75,32 C90,32 100,20 120,20 C140,20 145,32 165,32 C175,32 182,26 188,24" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/><path d="M90,48 C100,48 108,38 120,38 C132,38 138,48 150,48 C158,48 163,44 168,42" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/><text x="125" y="90" text-anchor="middle" font-family="sans-serif" font-size="38" font-weight="900" fill="#fff" letter-spacing="-1">summit</text><text x="125" y="110" text-anchor="middle" font-family="sans-serif" font-size="11" fill="rgba(255,255,255,.7)" letter-spacing="6">AIR AND REFRIGERATION</text></svg><div><h1>History</h1><small>'+hist.length+' work order'+(hist.length!==1?'s':'')+'</small></div></div>'+
+  '<div style="padding:12px 12px 80px"><button class="btn btn-p" style="margin-bottom:14px;flex:none;width:auto;padding:10px 20px" id="histBack">\u2190 Back</button>'+
+  (hist.length===0?'<div class="card" style="text-align:center;color:#94a3b8;padding:32px">No work orders yet</div>':
+  [...hist].reverse().map((h,i)=>
+    '<div class="card hi" data-histidx="'+(hist.length-1-i)+'"><div><div style="font-weight:700;font-size:15px;color:var(--c)">WO #'+h.woNumber+'</div><div style="font-size:12px;color:#64748b;margin-top:2px">'+(h.contractor||'\u2014')+' \u2014 '+(h.siteName||'\u2014')+'</div></div><div style="text-align:right"><div style="font-weight:700">'+fC(calc(h.labour,h.materials).total)+'</div><div style="font-size:10px;color:#94a3b8">'+fD(h.date)+'</div></div></div>'
+  ).join(""))+
+  '</div>';
+
+  document.getElementById("histBack").onclick=()=>{view="form";render()};
+  document.querySelectorAll("[data-histidx]").forEach(el=>{
+    el.onclick=()=>{wo=Object.assign({},hist[parseInt(el.dataset.histidx)]);view="preview";render()};
+  });
+}
+
+// ─── SERVICE WORKER FOR OFFLINE ───
+if("serviceWorker" in navigator){
+  const swCode='self.addEventListener("install",e=>self.skipWaiting());self.addEventListener("activate",e=>self.clients.claim());self.addEventListener("fetch",e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>new Response("Offline",{status:503}))))});';
+  const swBlob=new Blob([swCode],{type:"application/javascript"});
+  const swUrl=URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
+
+// ─── PWA MANIFEST ───
+const manifest={name:"Summit Work Orders",short_name:"Summit WO",start_url:location.href,display:"standalone",background_color:"#155a74",theme_color:"#155a74",icons:[{src:"data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="38" fill="%23155a74"/><text x="96" y="120" text-anchor="middle" font-family="sans-serif" font-size="70" font-weight="900" fill="white">WO</text></svg>'),sizes:"192x192",type:"image/svg+xml"}]};
+const mBlob=new Blob([JSON.stringify(manifest)],{type:"application/json"});
+const mUrl=URL.createObjectURL(mBlob);
+const mLink=document.createElement("link");mLink.rel="manifest";mLink.href=mUrl;document.head.appendChild(mLink);
+
+// ─── START ───
+init();
+</script>
+</body>
+</html>
